@@ -1,15 +1,14 @@
 import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
 import { TripListing } from './trip-listing/trip-listing';
 
 @Component({
-	selector: 'app-root',
-	standalone: true,
-	imports: [RouterOutlet, TripListing],
-	templateUrl: './app.html',
-	styleUrl: './app.css'
+  selector: 'app-root',
+  standalone: true,
+  imports: [TripListing],
+  templateUrl: './app.html',
+  styleUrl: './app.css'
 })
 
 export class App {
-	protected readonly title = signal('Travlr Getaways Admin!');
+  protected readonly title = signal('Travlr Getaways Admin!');
 }

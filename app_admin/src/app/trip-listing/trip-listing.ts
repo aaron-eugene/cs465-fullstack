@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { trips } from '../data/trips';
+import { TripCard } from '../trip-card/trip-card';
 
 @Component({
   selector: 'app-trip-listing',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TripCard],
   templateUrl: './trip-listing.html',
   styleUrl: './trip-listing.css',
 })
