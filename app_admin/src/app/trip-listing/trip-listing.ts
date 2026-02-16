@@ -5,6 +5,8 @@ import { TripCard } from '../trip-card/trip-card';
 import { TripDataService } from '../services/trip-data';
 import { Trip } from '../models/trip';
 
+import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-trip-listing',
   standalone: true,
@@ -20,9 +22,14 @@ export class TripListing implements OnInit {
 
   constructor(
     private tripDataService: TripDataService,
-    private cdr: ChangeDetectorRef
-  ) {
+    private cdr: ChangeDetectorRef,
+	private router: Router) 
+  {
     console.log('trip-listing constructor');
+  }
+
+  public addTrip(): void {
+    this.router.navigate(['add-trip']);
   }
 
   private getTrips(): void {
