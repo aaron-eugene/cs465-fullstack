@@ -2,7 +2,17 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+
 import { TripDataService } from '../services/trip-data';
+
+/**
+ * AddTrip Component
+ *
+ * Provides a form for creating a new Trip record.
+ * 
+ * Uses Angular Reactive Forms to validate input and
+ * submits data to the Express backend via TripDataService.
+ */
 
 @Component({
   selector: 'app-add-trip',
@@ -13,7 +23,13 @@ import { TripDataService } from '../services/trip-data';
 })
 export class AddTrip implements OnInit {
 
+  /**
+   * Reactive form group used to capture trip data
+   */
   public addForm!: FormGroup;
+	
+  // Whether the form has been submitted
+  // Used for validation display logic
   submitted = false;
 
   constructor(
@@ -22,6 +38,10 @@ export class AddTrip implements OnInit {
     private tripService: TripDataService
   ) {}
 
+  /**
+   * Lifecycle hook.
+   * Initializes the reactive form structure.
+   */
   ngOnInit(): void {
     this.addForm = this.formBuilder.group({
       _id: [],
@@ -35,7 +55,13 @@ export class AddTrip implements OnInit {
       description: ['', Validators.required]
     });
   }
-
+  
+  /**
+   * Handles form submission.
+   * 
+   * Validates input and sends POST request
+   * to backend API if form is valid.
+   */
   public onSubmit(): void {
     this.submitted = true;
 
@@ -44,8 +70,11 @@ export class AddTrip implements OnInit {
         .subscribe({
           next: (data: any) => {
             console.log(data);
+						
+            // Returns to trip listing after successful save
             this.router.navigate(['']);
           },
+		  
           error: (error: any) => {
             console.log('Error: ' + error);
           }
@@ -53,6 +82,10 @@ export class AddTrip implements OnInit {
     }
   }
 
+  /**
+   * Convenience getter for form controls.
+   * Allows cleaner access in the template (f['code'], etc.).
+   */
   get f() {
     return this.addForm.controls;
   }

@@ -1,3 +1,13 @@
+/**
+ * Static Trip Data (Mock Data)
+ *
+ * This file provides hardcoded trip data used during early
+ * development before the backend API is connected.
+ *
+ * Once the REST API is active, this data is no longer used
+ * and trips are retrieved dynamically from the Express backend.
+ */
+
 export const trips = [
 	{
 		"code" : "GALR210214",
