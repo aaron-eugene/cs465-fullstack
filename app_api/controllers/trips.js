@@ -1,65 +1,89 @@
+/**
+ * trips.js
+ * =========
+ *
+ * Controller functions for Trip API endpoints.
+ *
+ * This file handles:
+ * - Listing all trips
+ * - Finding trips by code
+ * - Creating new trips
+ * - Updating existing trips
+ *
+ * All endpoints return JSON responses with appropriate HTTP status codes.
+ */
+
 const mongoose = require('mongoose');
-const Trip = require('../models/travlr'); // Register model
+const Trip = require('../models/travlr'); // Ensure model is registered
 const Model = mongoose.model('trips');
 
-// GET: /trips - lists all the trips
-// Regardless of outcome, response must include HTML status code
-// 	and JSON message to the requesting client
+/**
+ * GET /api/trips
+ *
+ * Retrieves all trip records from the database.
+ *
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @returns {JSON} Array of trip objects or 404 if none found
+ */
 const tripsList = async(req, res) => {
+	
 	const q = await Model
-		.find({}) // No filter, return all records
+		.find({})
 		.exec();
 		
-	// Uncomment the following line to show results of query
-	// 	on the console
-	// console.log(q);
-	
-	// Database returned no data
+	// No records found
 	if (!q) {
 		return res
 			.status(404)
-			//.json(err);
-			.json({ message: 'Trip not found' });
+			.json({ message: 'No trips found' });
 	} 
+	
 	// Return resulting trip list
-	else {
-		return res
-			.status(200)
-			.json(q);
-	}
+	return res
+		.status(200)
+		.json(q);
 };
 
-// GET: /trips/:tripCode - lists a single trip
-// Regardless of outcome, response must include HTML status code
-// 	and JSON message to the requesting client
+/**
+ * GET /api/trips/:tripCode
+ *
+ * Retrieves trip(s) matching the provided trip code.
+ *
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @returns {JSON} Array of matching trip objects or 404 if none found
+ */
 const tripsFindByCode = async(req, res) => {
-	const q = await Model
-		.find({'code' : req.params.tripCode }) // Return single record
-		.exec();
-		
-	// Uncomment the following line to show results of query
-	// 	on the console
-	// console.log(q);
 	
-	// Database returned no data
+	const q = await Model
+		.find({'code' : req.params.tripCode })
+		.exec();
+	
+	// No matching records found
 	if (!q) {
 		return res
 			.status(404)
-			//.json(err);
-			.json({ message: 'Trip not found' });
-	} 
-	// Return resulting trip list
-	else {
-		return res
-			.status(200)
-			.json(q);
+			.json({ message: 'No matching trip found' });
 	}
+	
+	// Return resulting trip list
+	return res
+		.status(200)
+		.json(q);
 };
 
-// POST: /trips - Adds a new trip
-// Regardless of outcome, response must include HTML status code
-// and JSON message to the requesting client
+/**
+ * POST /api/trips
+ *
+ * Creates a new trip record using request body data.
+ *
+ * @param {Object} req - Express request object containing trip data
+ * @param {Object} res - Express response object
+ * @returns {JSON} Newly created trip object or 400 if creation fails
+ */
 const tripsAddTrip = async(req, res) => {
+	
 	const newTrip = new Trip({
 		code: req.body.code,
 		name: req.body.name,
@@ -73,28 +97,31 @@ const tripsAddTrip = async(req, res) => {
 	
 	const q = await newTrip.save();
 	
-		if(!q)
-		{ // Database returned no data
-			return res
-				.status(400)
-				.json(err);
-		} else { // Return new trip
-			return res
-				.status(201)
-				.json(q);
-		}
-		
-		console.log(q);
+	// Creation failed
+	if(!q)
+	{ 
+		return res
+			.status(400)
+			.json({ message: 'Unable to create trip' });
+	} 
+	
+	// Return new trip
+	return res
+		.status(201)
+		.json(q);
 }
 
-// PUT: /trips/:tripCode - Adds a new trip
-// Regardless of outcome, response must include HTML status code
-// and JSON message to the requesting client
+/**
+ * PUT /api/trips/:tripCode
+ *
+ * Updates an existing trip record identified by tripCode.
+ *
+ * @param {Object} req - Express request object containing updated trip data
+ * @param {Object} res - Express response object
+ * @returns {JSON} Updated trip object or 404 if not found
+ */
 const tripsUpdateTrip = async(req, res) => {
-	// Uncomment for debugging
-	console.log(req.params);
-	console.log(req.body);
-	
+
 	const q = await Model
 		.findOneAndUpdate(
 			{ 'code' : req.params.tripCode },
@@ -110,22 +137,23 @@ const tripsUpdateTrip = async(req, res) => {
 			}
 		)
 		.exec();
-			
+		
+		// No matching document found to update		
 		if(!q)
-		{ // Database returned no data
+		{ 
 			return res
 				.status(400)
-				.json(err);
-		} else { // Return resulting updated trip
-			return res
-				.status(201)
-				.json(q);
-		}
+				.json({ message: 'Trip not found' });
+		} 
 		
-		// Uncomment to show results on console
-		console.log(q);			
+		// Return resulting updated trip
+		return res
+			.status(201)
+			.json(q);
 };
 
+//Export controller functions for use in API route definitions.
+// These functions are mapped to routes in app_api/routes.
 module.exports = {
 	tripsList,
 	tripsFindByCode,

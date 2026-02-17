@@ -1,16 +1,43 @@
+/**
+ * db.js
+ * ======
+ *
+ * Configures and manages the MongoDB connection using Mongoose.
+ *
+ * Responsibilities:
+ * - Build the MongoDB connection string
+ * - Establish initial database connection
+ * - Monitor connection events
+ * - Handle graceful shutdown signals
+ * - Register Mongoose schemas
+ *
+ * This module is imported during application startup (app.js)
+ */
+
 const mongoose = require('mongoose'); 
+const readLine = require('readline'); 
+
+/***********************************************************
+* Connection Configuration
+************************************************************/
+
+// Use environment variable if available, otherwise default to localhost
 const host = process.env.DB_HOST || '127.0.0.1'; 
 const dbURI = `mongodb://${host}/travlr`;
-const readLine = require('readline'); 
  
-// Build the connection string and set the connection timeout.  
-// timeout is in milliseconds. 
+/**
+ * Establishes connection to MongoDB.
+ * A slight delay is used to ensure the environment is ready.
+ */
 const connect = () => { 
     setTimeout(() => mongoose.connect(dbURI, { 
     }), 1000); 
 } 
  
-// Monitor connection events 
+/***********************************************************
+* Connection Event Monitoring
+************************************************************/
+ 
 mongoose.connection.on('connected', () => { 
     console.log(`Mongoose connected to ${dbURI}`); 
 }); 
@@ -23,7 +50,11 @@ mongoose.connection.on('disconnected', () => {
     console.log('Mongoose disconnected'); 
 }); 
  
-// Windows specific listener 
+/***********************************************************
+* Windows SIGINT Handling
+************************************************************/ 
+
+// Required for Windows environments where SIGINT behaves differently 
 if(process.platform === 'win32'){ 
     const r1 = readLine.createInterface({ 
         input: process.stdin, 
@@ -33,37 +64,56 @@ if(process.platform === 'win32'){
         process.emit("SIGINT"); 
     }); 
 } 
- 
-// Configure for Graceful Shutdown 
+
+/***********************************************************
+* Graceful Shutdown Handling
+************************************************************/
+
+/**
+ * Closes the Mongoose connection and logs shutdown reason.
+ *
+ * @param {String} msg - Description of shutdown trigger
+ */
 const gracefulShutdown = (msg) => { 
     mongoose.connection.close(() => { 
         console.log(`Mongoose disconnected through ${msg}`); 
     }); 
 }; 
  
-// Event Listeners to process graceful shutdowns  
- 
-// Shutdown invoked by nodemon signal 
+// Restart via nodemon
 process.once('SIGUSR2', () => { 
     gracefulShutdown('nodemon restart'); 
 	process.kill(process.pid, 'SIGUSR2'); 
 }); 
 
-// Shutdown invoked by app termination 
+// Application termination (Ctrl+C)
 process.on('SIGINT', () => { 
 	gracefulShutdown('app termination'); 
 	process.exit(0); 
 });
  
-// Shutdown invoked by container termination 
+// Container termination (e.g., Docker stop)
 process.on('SIGTERM', () => { 
 	gracefulShutdown('app shutdown'); 
 	process.exit(0); 
 }); 
 
-// Make initial connection to DB 
+/***********************************************************
+* Initialize Connection & Load Schemas
+************************************************************/
+ 
+// Establish initial database connection
 connect(); 
 
-// Import Mongoose schema 
+// Register Mongoose schemas
 require('./travlr'); 
+
+/***********************************************************
+* Module Export
+************************************************************/
+
+// Exports the configured Mongoose instance.
+// Importing this module ensures:
+// - Database connection is initialized
+// - Schemas are registered
 module.exports = mongoose; 
