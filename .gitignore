@@ -6,6 +6,9 @@
 !.vscode/extensions.json 
 *.code-workspace
 
+# dotenv environment variables file
+.env
+
 # Logs
 logs
 *.log

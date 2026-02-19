@@ -36,6 +36,12 @@ var aboutRouter = require('./app_server/routes/about');
 var apiRouter = require('./app_api/routes/index');
 
 /***********************************************************
+* Environment Variables
+************************************************************/
+
+require('dotenv').config();
+
+/***********************************************************
 * Database Initialization
 ************************************************************/
    
