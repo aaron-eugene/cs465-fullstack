@@ -50,5 +50,14 @@ router
 	.route("/register")
 	.post(authController.register);
 
+/**
+ * /api/login
+ *
+ * POST - Authenticate existing user and return JWT
+ */
+router
+	.route('/login')
+	.post(authController.login);
+
 // Export configured router for mounting in app.js.
 module.exports = router;

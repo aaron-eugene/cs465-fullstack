@@ -10,6 +10,7 @@
  */
 
 const mongoose = require("mongoose");
+const passport = require("passport");
 const User = require("../models/user");
 
 /**
@@ -58,7 +59,52 @@ const register = async (req, res) => {
 		.json(token);
 };
 
+/**
+ * POST /api/login
+ *
+ * Authenticates an existing user and returns a JSON Web Token.
+ *
+ * @param {Object} req - Express request object containing email and password
+ * @param {Object} res - Express response object
+ * @returns {JSON} JWT token or authentication error
+ */
+const login = (req, res) => {
+
+	// Ensure required fields are provided
+	if (!req.body.email || !req.body.password) {
+		return res
+			.status(400)
+			.json({ "message": "All fields required" });
+	}
+
+	// Delegate authentication to passport module
+	passport.authenticate('local', (err, user, info) => {
+
+		// Error in authentication process
+		if (err) {
+			return res
+				.status(404)
+				.json(err);
+		}
+
+		// Authentication succeeded
+		if (user) {
+			const token = user.generateJWT();
+			return res
+				.status(200)
+				.json({ token });
+		}
+
+		// Authentication failed
+		return res
+			.status(401)
+			.json(info);
+
+	})(req, res);
+};
+
 // Export controller methods.
 module.exports = {
-	register
+	register,
+	login
 };
