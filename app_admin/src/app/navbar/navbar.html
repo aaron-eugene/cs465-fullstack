@@ -1,0 +1,59 @@
+<!--
+  Navbar Component Template
+
+  Provides top-level navigation for the Angular SPA.
+
+  Responsibilities:
+  - Display application branding (logo)
+  - Provide navigation to Trip dashboard
+  - Toggle Login / Logout based on authentication state
+
+  Authentication state is delegated to AuthenticationService.
+-->
+
+<nav class="navbar navbar-expand navbar-light bg-light">
+
+  <!-- =======================
+       Application Branding
+       ======================= -->
+  <a class="navbar-brand" routerLink="/">
+    <img src="/assets/images/logo.png" alt="Travlr Logo">
+  </a>
+
+  <!-- =======================
+       Collapsible Navigation Container
+       ======================= -->
+  <div class="collapse navbar-collapse">
+
+    <!-- Left Side Navigation Links -->
+    <div class="navbar-nav">
+      <a class="nav-link active"
+         routerLink="/"
+         routerLinkActive="active">
+        Trips <span class="sr-only">(current)</span>
+      </a>
+    </div>
+
+    <!-- =======================
+         Right Side Authentication Controls
+         ======================= -->
+    <div class="ms-auto d-flex align-items-center">
+
+      <!-- Login Link (Visible when NOT authenticated) -->
+      <a class="nav-link"
+         routerLink="/login"
+         *ngIf="!isLoggedIn()">
+        Log In
+      </a>
+
+      <!-- Logout Button (Visible when authenticated) -->
+      <button class="nav-link btn btn-link p-0"
+              type="button"
+              (click)="onLogout()"
+              *ngIf="isLoggedIn()">
+        Log Out
+      </button>
+
+    </div>
+  </div>
+</nav>

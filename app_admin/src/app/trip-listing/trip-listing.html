@@ -1,12 +1,38 @@
-<!-- <pre>{{trips | json}}</pre> --> 
+<!--
+  Trip Listing Component Template
+
+  Responsible for:
+  - Displaying the "Add Trip" action
+  - Rendering a collection of Trip records
+  - Delegating trip presentation to TripCard component
+-->
+
+<!-- =======================
+     Add Trip Button
+     ======================= -->
 <div>
-	<button (click)="addTrip()" class="btn btn-info">Add Trip</button>
+  <button
+    (click)="addTrip()"
+    class="btn btn-info">
+    Add Trip
+  </button>
 </div>
+
+<!-- =======================
+     Trip Card Grid Layout
+     ======================= -->
 <div class="row">
-    <div *ngFor="let trip of trips" class="col-md-4">
+
+  <!-- Iterate through trips collection -->
+  <div *ngFor="let trip of trips"
+       class="col-md-4">
+
+    <!-- Reusable Trip Card Component -->
     <app-trip-card
       [trip]="trip"
-      class="card-deck mt-2"
-    ></app-trip-card>
+      class="card-deck mt-2">
+    </app-trip-card>
+
   </div>
+
 </div>

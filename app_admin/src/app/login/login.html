@@ -1,0 +1,80 @@
+<!--
+  Login Component Template
+
+  Provides user authentication interface.
+
+  Responsibilities:
+  - Collect user credentials
+  - Display validation errors
+  - Trigger login workflow via AuthenticationService
+-->
+
+<div class="row">
+
+  <div class="col-12 col-md-8">
+
+    <!-- Section Title -->
+    <h2>Login</h2>
+
+    <!-- 
+      Login Form
+      - Uses template-driven binding (ngModel)
+      - Submits via onLoginSubmit()
+    -->
+    <form (ngSubmit)="onLoginSubmit()">
+
+      <!-- =======================
+           Form Error Display
+           ======================= -->
+      <div role="alert"
+           *ngIf="formError"
+           class="alert alert-danger">
+        {{ formError }}
+      </div>
+
+      <!-- =======================
+           Name Field
+           ======================= -->
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text"
+               name="name"
+               placeholder="Enter Name"
+               [(ngModel)]="credentials.name">
+      </div>
+
+      <!-- =======================
+           Email Field
+           ======================= -->
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input type="email"
+               name="email"
+               placeholder="Enter email address"
+               [(ngModel)]="credentials.email">
+      </div>
+
+      <!-- =======================
+           Password Field
+           ======================= -->
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password"
+               class="form-control"
+               id="password"
+               name="password"
+               placeholder="e.g 12+ alphanumerics"
+               [(ngModel)]="credentials.password">
+      </div>
+
+      <!-- Submit Button -->
+      <button type="submit"
+              role="button"
+              class="btn btn-primary">
+        Sign In!
+      </button>
+
+    </form>
+
+  </div>
+</div>

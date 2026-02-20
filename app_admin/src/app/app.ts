@@ -1,6 +1,8 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
+import { Navbar } from './navbar/navbar';
+
 /**
  * Root Application Component
  *
@@ -10,24 +12,15 @@ import { RouterOutlet } from '@angular/router';
  * - The application layout shell
  * - The navigation header
  * - The router outlet used to dynamically render components
- *
- * All routed components (TripListing, AddTrip, EditTrip, etc.)
- * are rendered inside the <router-outlet>.
  */
-
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, Navbar],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
 export class App {
-  
-  /**
-   * Application title displayed in the navigation bar.
-   * 
-   * Angular signal is used here for reactive state handling.
-   */
+
   protected readonly title = signal('Travlr Getaways Admin!');
 }

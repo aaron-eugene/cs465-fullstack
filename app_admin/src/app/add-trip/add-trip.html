@@ -1,11 +1,29 @@
+<!-- 
+  Add Trip Component Template
+  
+  Provides a reactive form for creating a new Trip record.
+  
+  Uses Angular FormGroup binding and Bootstrap styling.
+  Validation feedback is displayed after submission attempt.
+-->
+
 <div class="col-md-4">
+
+  <!-- Section Title -->
   <h2 class="text-center">Add Trip</h2>
 
+  <!-- 
+    Reactive Form Container
+    - Bound to addForm FormGroup
+    - Only rendered when form is initialized
+  -->
   <form *ngIf="addForm"
         [formGroup]="addForm"
         (ngSubmit)="onSubmit()">
 
-    <!-- Code -->
+    <!-- =======================
+         Trip Code Field
+         ======================= -->
     <div class="form-group mb-3">
       <label>Code:</label>
       <input type="text"
@@ -14,14 +32,17 @@
              class="form-control"
              [ngClass]="{ 'is-invalid': submitted && f['code'].errors }">
 
+      <!-- Validation Message -->
       <div *ngIf="submitted && f['code'].errors">
-        <div *ngIf="f['code'].errors && f['code'].errors['required']" class="text-danger">
+        <div *ngIf="f['code'].errors['required']" class="text-danger">
           Trip Code is required
         </div>
       </div>
     </div>
 
-    <!-- Name -->
+    <!-- =======================
+         Trip Name Field
+         ======================= -->
     <div class="form-group mb-3">
       <label>Name:</label>
       <input type="text"
@@ -31,13 +52,15 @@
              [ngClass]="{ 'is-invalid': submitted && f['name'].errors }">
 
       <div *ngIf="submitted && f['name'].errors">
-        <div *ngIf="f['name'].errors && f['name'].errors['required']" class="text-danger">
+        <div *ngIf="f['name'].errors['required']" class="text-danger">
           Name is required
         </div>
       </div>
     </div>
 
-    <!-- Length -->
+    <!-- =======================
+         Trip Length Field
+         ======================= -->
     <div class="form-group mb-3">
       <label>Length:</label>
       <input type="text"
@@ -47,13 +70,15 @@
              [ngClass]="{ 'is-invalid': submitted && f['length'].errors }">
 
       <div *ngIf="submitted && f['length'].errors">
-        <div *ngIf="f['length'].errors && f['length'].errors['required']" class="text-danger">
+        <div *ngIf="f['length'].errors['required']" class="text-danger">
           Length is required
         </div>
       </div>
     </div>
 
-    <!-- Start -->
+    <!-- =======================
+         Start Date Field
+         ======================= -->
     <div class="form-group mb-3">
       <label>Start Date:</label>
       <input type="date"
@@ -62,13 +87,15 @@
              [ngClass]="{ 'is-invalid': submitted && f['start'].errors }">
 
       <div *ngIf="submitted && f['start'].errors">
-        <div *ngIf="f['start'].errors && f['start'].errors['required']" class="text-danger">
+        <div *ngIf="f['start'].errors['required']" class="text-danger">
           Date is required
         </div>
       </div>
     </div>
 
-    <!-- Resort -->
+    <!-- =======================
+         Resort Field
+         ======================= -->
     <div class="form-group mb-3">
       <label>Resort:</label>
       <input type="text"
@@ -78,13 +105,15 @@
              [ngClass]="{ 'is-invalid': submitted && f['resort'].errors }">
 
       <div *ngIf="submitted && f['resort'].errors">
-        <div *ngIf="f['resort'].errors && f['resort'].errors['required']" class="text-danger">
+        <div *ngIf="f['resort'].errors['required']" class="text-danger">
           Resort is required
         </div>
       </div>
     </div>
 
-    <!-- Per Person -->
+    <!-- =======================
+         Price Per Person Field
+         ======================= -->
     <div class="form-group mb-3">
       <label>Per Person:</label>
       <input type="text"
@@ -94,13 +123,15 @@
              [ngClass]="{ 'is-invalid': submitted && f['perPerson'].errors }">
 
       <div *ngIf="submitted && f['perPerson'].errors">
-        <div *ngIf="f['perPerson'].errors && f['perPerson'].errors['required']" class="text-danger">
+        <div *ngIf="f['perPerson'].errors['required']" class="text-danger">
           Per Person price is required
         </div>
       </div>
     </div>
 
-    <!-- Image -->
+    <!-- =======================
+         Image Field
+         ======================= -->
     <div class="form-group mb-3">
       <label>Image Name:</label>
       <input type="text"
@@ -110,13 +141,15 @@
              [ngClass]="{ 'is-invalid': submitted && f['image'].errors }">
 
       <div *ngIf="submitted && f['image'].errors">
-        <div *ngIf="f['image'].errors && f['image'].errors['required']" class="text-danger">
+        <div *ngIf="f['image'].errors['required']" class="text-danger">
           Image name is required
         </div>
       </div>
     </div>
 
-    <!-- Description -->
+    <!-- =======================
+         Description Field
+         ======================= -->
     <div class="form-group mb-4">
       <label>Description:</label>
       <textarea formControlName="description"
@@ -126,12 +159,13 @@
       </textarea>
 
       <div *ngIf="submitted && f['description'].errors">
-        <div *ngIf="f['description'].errors && f['description'].errors['required']" class="text-danger">
+        <div *ngIf="f['description'].errors['required']" class="text-danger">
           Description is required
         </div>
       </div>
     </div>
 
+    <!-- Submit Button -->
     <button type="submit" class="btn btn-info w-100">
       Save
     </button>

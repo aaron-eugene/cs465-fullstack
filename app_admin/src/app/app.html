@@ -1,11 +1,17 @@
-<!-- <h1>{{ title }}</h1> -->
-<nav class="navbar navbar-default">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#">{{ title() }}</a>
-  </div>
-</nav>
+<!--
+  Root Application Template
 
+  Defines the top-level layout structure for the Angular SPA.
+
+  Layout Structure:
+  - Persistent navigation bar (NavbarComponent)
+  - Routed content area (dynamic view rendering)
+-->
+
+<!-- Persistent Navigation -->
+<app-navbar></app-navbar>
+
+<!-- Routed Content Container -->
 <div class="container">
-<!--  <app-trip-listing></app-trip-listing> -->
   <router-outlet></router-outlet>
 </div>
